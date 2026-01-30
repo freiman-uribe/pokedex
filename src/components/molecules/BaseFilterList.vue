@@ -34,25 +34,30 @@ import BaseButton from "../atoms/BaseButton.vue";
           ></iconify-icon>
         </div>
       </div>
-      <base-input />
+      <base-input
+        inputId="search-input"
+        inputType="search"
+        inputClass="retro-input"
+        inputPlaceholder="Name, Number or Type..."
+      />
     </div>
 
     <div class="filter-scroll">
-      <base-button buttonClass="filter-chip active"> All Gen </base-button>
-      <base-button buttonClass="filter-chip"> Kanto </base-button>
-      <base-button buttonClass="filter-chip"> Johto </base-button>
-      <base-button buttonClass="filter-chip"> Hoenn </base-button>
-      <base-button buttonClass="filter-chip"> Sinnoh </base-button>
-      <base-button
+      <base-button buttonId="all-gen" buttonClass="filter-chip active"> All Gen </base-button>
+      <base-button buttonId="kanto" buttonClass="filter-chip"> Kanto </base-button>
+      <base-button buttonId="johto" buttonClass="filter-chip"> Johto </base-button>
+      <base-button buttonId="hoenn" buttonClass="filter-chip"> Hoenn </base-button>
+      <base-button buttonId="sinnoh" buttonClass="filter-chip"> Sinnoh </base-button>
+      <base-button buttonId="grass"
         buttonClass="filter-chip"
         style="margin-left: 12px; border-left: 4px double var(--foreground)"
       >
         Grass
       </base-button>
-      <base-button buttonClass="filter-chip"> Fire </base-button>
-      <base-button buttonClass="filter-chip"> Water </base-button>
-      <base-button buttonClass="filter-chip">Bug</base-button>
-      <base-button buttonClass="filter-chip"> Electric </base-button>
+      <base-button buttonId="fire" buttonClass="filter-chip"> Fire </base-button>
+      <base-button buttonId="water" buttonClass="filter-chip"> Water </base-button>
+      <base-button buttonId="bug" buttonClass="filter-chip">Bug</base-button>
+      <base-button buttonId="electric" buttonClass="filter-chip"> Electric </base-button>
     </div>
   </header>
 </template>
