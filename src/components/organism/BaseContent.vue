@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseCard from './organism/BaseCard.vue';
-import BaseFilterList from './organism/BaseFilterList.vue';
+import BaseCard from '../molecules/BaseCard.vue';
+import BaseFilterList from '../molecules/BaseFilterList.vue';
 </script>
 
 <template>

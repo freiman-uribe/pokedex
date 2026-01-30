@@ -116,16 +116,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.1s;
+  transition: transform 0.1s;
   color: var(--muted-foreground);
+  box-shadow: 2px 2px 0px var(--foreground);
+  border: 2px solid var(--foreground);
 }
 
 .nav-icon-btn.active {
-  background: var(--secondary);
-  border: 2px solid var(--foreground);
-  box-shadow: 2px 2px 0px var(--foreground);
+  background: var(--sidebar-primary);
   color: var(--foreground);
 }
 

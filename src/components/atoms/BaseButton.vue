@@ -1,13 +1,17 @@
 <script setup lang="ts">
 interface props {
-    buttonType?: 'button' | 'submit' | 'reset';
+    buttonId: string;
+    buttonType?: "button" | "submit" | "reset";
     buttonClass?: string;
 }
-defineProps<props>();
+const props = withDefaults(defineProps<props>(), {
+    buttonType: "button",
+    buttonClass: ""
+});
 
 </script>
 <template>
-    <button :class="buttonClass" :type="buttonType">
+    <button :id="props.buttonId" :class="props.buttonClass" :type="props.buttonType">
         <slot />
     </button>
 </template>
