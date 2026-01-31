@@ -26,7 +26,7 @@ onMounted(async () => {
     <base-filter-list :types="pokemonTypes" />
     <span v-if="loading">Cargando pokemones...</span>
     <span v-if="error">{{ error }}</span>
-    <div class="poke-grid-scroll">
+    <div v-if="!loading && !error" class="poke-grid-scroll">
       <div class="grid-container">
         <base-card v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
       </div>
