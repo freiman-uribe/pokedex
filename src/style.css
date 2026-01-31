@@ -87,7 +87,7 @@
   background-color: var(--background);
   color: var(--foreground);
   display: flex;
-  height: 100vh;
+  /* height: 100vh; */
   overflow: hidden;
 }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PokemonTemplate from "../template/pokemons.tgemplate.vue";
+import PokemonTemplate from "../template/Pokemons.tgemplate.vue";
 import BaseContent from "../components/organism/BaseContent.vue";
 import BaseDetails from "../components/BaseDetails.vue";
 

@@ -20,7 +20,7 @@ export const usePokemonStore = defineStore("pokemon", {
           response.results.map(async (item: any) => {
             const name = item.name;
             const res = await this.fetchPokemonByIdOrName(name);
-            const evolutions = await this.fetchEvolutionPokemon(res.id);
+            const evolutions = await this.fetchEvolutionPokemon(res);
             
             return {...res, evolutions };
           }),
@@ -43,21 +43,38 @@ export const usePokemonStore = defineStore("pokemon", {
         }
     },
 
-    async fetchEvolutionPokemon(_id: number) {
+    async fetchEvolutionPokemon({ evolution }: any) {
         try {
-            const response = await servicePokemon.fetchPokemonEvolutions(_id);
-             let evolutions = [] as Array<any>;
-             const chainData = response.chain;
-             if (chainData.evolves_to.length > 0) {
-               evolutions = [chainData?.evolves_to[0]?.species.name];
-               if (chainData.evolves_to[0].evolves_to.length > 0) {
-                 evolutions = [
-                   ...evolutions,
-                   chainData?.evolves_to[0]?.evolves_to[0]?.species.name,
-                 ];
-               }
-             }
-            return evolutions;
+          let evolutionsData = [] as Array<any>;
+          const chainData = evolution.chain;
+          if (chainData.species.name) {
+            const { sprites } = await servicePokemon.fetchPokemonByName(
+              chainData.species.name,
+            );
+            evolutionsData = [{ sprites, name: chainData.species.name }];
+          }
+          if (chainData.evolves_to.length > 0) {
+            const { sprites } = await servicePokemon.fetchPokemonByName(
+              chainData?.evolves_to[0]?.species.name,
+            );
+            evolutionsData = [
+              ...evolutionsData,
+              { sprites, name: chainData?.evolves_to[0]?.species.name },
+            ];
+            if (chainData.evolves_to[0].evolves_to.length > 0) {
+              const { sprites } = await servicePokemon.fetchPokemonByName(
+                chainData?.evolves_to[0]?.evolves_to[0]?.species.name,
+              );
+              evolutionsData = [
+                ...evolutionsData,
+                {
+                  sprites,
+                  name: chainData?.evolves_to[0]?.evolves_to[0]?.species.name,
+                },
+              ];
+            }
+          }
+          return evolutionsData;
         } catch (error) {
             throw new Error("Error fetching pokemon evolutions");
         }
