@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseEvolution from "./organism/BaseEvolution.vue";
+import BaseEvolution from "../organism/BaseEvolution.vue";
 // import { Chart as ChartJS, Title, Tooltip, Legend, RadialLinearScale, PointElement, LineElement, Filler, RadarController } from 'chart.js'
 // import { RadarChart } from 'vue-chart-3'
 

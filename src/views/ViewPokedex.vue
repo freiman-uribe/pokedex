@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import PokemonTemplate from "../template/Pokemons.tgemplate.vue";
-import BaseContent from "../components/organism/BaseContent.vue";
-import BaseDetails from "../components/BaseDetails.vue";
+import PokemonTemplate from "../template/Pokemon.template.vue";
+import BaseContent from "../components/pokemon/organism/BaseContent.vue";
+import BaseDetails from "../components/pokemon/organism/BaseDetails.vue";
 
 import { usePokemonStore } from "../store/pokemon.store";
 import { storeToRefs } from "pinia";
