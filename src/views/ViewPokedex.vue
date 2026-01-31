@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import BaseHeader from "../components/BaseHeader.vue";
+import PokemonTemplate from "../template/pokemons.tgemplate.vue";
 import BaseContent from "../components/organism/BaseContent.vue";
 import BaseDetails from "../components/BaseDetails.vue";
-import BaseFooter from "../components/BaseFooter.vue";
 
 import { usePokemonStore } from "../store/pokemon.store";
 import { storeToRefs } from "pinia";
@@ -18,10 +17,12 @@ const {
 </script>
 
 <template>
-    <div class="layout-wrapper">
-        <base-header />
-        <base-content />
-        <base-details v-if="currentPokemon.id"  :pokemon="currentPokemon" />
-    </div>
-    <base-footer />
+    <PokemonTemplate>
+        <template #content>
+            <base-content />
+        </template>
+        <template #details>
+            <base-details v-if="currentPokemon.id"  :pokemon="currentPokemon" />
+        </template>
+    </PokemonTemplate>
 </template>
