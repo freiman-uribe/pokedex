@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import BaseInput from "../atoms/BaseInput.vue";
 import BaseButton from "../atoms/BaseButton.vue";
+
+defineProps<{
+  types?: Array<any>;
+}>();
 </script>
 
 <template>
@@ -43,21 +47,16 @@ import BaseButton from "../atoms/BaseButton.vue";
     </div>
 
     <div class="filter-scroll">
-      <base-button buttonId="all-gen" buttonClass="filter-chip active"> All Gen </base-button>
-      <base-button buttonId="kanto" buttonClass="filter-chip"> Kanto </base-button>
-      <base-button buttonId="johto" buttonClass="filter-chip"> Johto </base-button>
-      <base-button buttonId="hoenn" buttonClass="filter-chip"> Hoenn </base-button>
-      <base-button buttonId="sinnoh" buttonClass="filter-chip"> Sinnoh </base-button>
-      <base-button buttonId="grass"
+      <base-button
+        buttonId="all"
+        buttonClass="filter-chip active"
+        >All</base-button>
+      <base-button
+        v-for="type in types"
+        :key="type.name"
+        :buttonId="type.name"
         buttonClass="filter-chip"
-        style="margin-left: 12px; border-left: 4px double var(--foreground)"
-      >
-        Grass
-      </base-button>
-      <base-button buttonId="fire" buttonClass="filter-chip"> Fire </base-button>
-      <base-button buttonId="water" buttonClass="filter-chip"> Water </base-button>
-      <base-button buttonId="bug" buttonClass="filter-chip">Bug</base-button>
-      <base-button buttonId="electric" buttonClass="filter-chip"> Electric </base-button>
+        >{{ type.name }}</base-button>
     </div>
   </header>
 </template>
