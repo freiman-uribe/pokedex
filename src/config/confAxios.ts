@@ -2,7 +2,7 @@
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosResponse } from 'axios';
 
-export class AxiosConfig {
+class AxiosConfig {
     private adapter: AxiosInstance;
 
     constructor() {
@@ -22,8 +22,8 @@ export class AxiosConfig {
         );
     }
 
-    public handleResponse<T>(response: AxiosResponse<T>): AxiosResponse<T> {
-        return response;
+    public handleResponse<T>(response: AxiosResponse<T>): T {
+        return response.data;
     }
 
     public handleError(error: AxiosError): void {
@@ -43,3 +43,5 @@ export class AxiosConfig {
         return this.adapter.get<T>(url, { params }) as Promise<T>;
     }
 }
+
+export const httpClient = new AxiosConfig();
