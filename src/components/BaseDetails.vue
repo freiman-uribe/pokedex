@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BaseEvolution from "./organism/BaseEvolution.vue";
 // import { Chart as ChartJS, Title, Tooltip, Legend, RadialLinearScale, PointElement, LineElement, Filler, RadarController } from 'chart.js'
 // import { RadarChart } from 'vue-chart-3'
 
@@ -82,6 +83,7 @@ defineProps<{
         {{ pokemon?.description }}
       </div>
 
+      <base-evolution :evolutions="pokemon?.evolutions" />
       <!-- <RadarChart :chart-data="data" :chart-options="options" /> -->
 
       <div style="text-align: center">
