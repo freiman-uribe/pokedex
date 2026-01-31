@@ -2,7 +2,7 @@
 import BaseCard from '../molecules/BaseCard.vue';
 import BaseFilterList from '../molecules/BaseFilterList.vue';
 
-import { usePokemonStore } from "../../store/pokemon.store";
+import { usePokemonStore } from "../../../store/pokemon.store";
 import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 

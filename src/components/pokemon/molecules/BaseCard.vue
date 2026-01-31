@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePokemonStore } from "../../store/pokemon.store";
+import { usePokemonStore } from "../../../store/pokemon.store";
 import { storeToRefs } from "pinia";
 const pokemonStore = usePokemonStore();
 
