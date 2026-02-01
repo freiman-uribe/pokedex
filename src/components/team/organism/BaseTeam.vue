@@ -1,5 +1,22 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import BaseButton from "../../team/atoms/BaseButton.vue";
+import { usePokemonStore } from "../../../store/pokemon.store";
+
+const pokemonStore = usePokemonStore();
+
+const {
+  team,
+  currentPokemonTeam
+} = storeToRefs(pokemonStore);
+
+async function handleRemovePokemon(pokemonId: number) {
+  await pokemonStore.removeFromTeam(pokemonId);
+}
+
+function handlePokemonClick(pokemonId: number) {
+  pokemonStore.getCurrentPokemonTeam(pokemonId);
+}
 </script>
 
 <template>
@@ -8,34 +25,34 @@ import BaseButton from "../../team/atoms/BaseButton.vue";
       <div class="header-bottom-row">
         <div class="app-title">Equipo de la Liga</div>
         <div class="action-chip" data-media-type="banani-button">
-          1 / 6 Miembros
+          {{ team.length }} / 6 Miembros
         </div>
       </div>
     </header>
     <div class="team-content-scroll">
       <div class="team-grid">
-        <div class="team-slot selected" data-media-type="banani-button">
+        <div :class="['team-slot',  currentPokemonTeam && currentPokemonTeam.id === member.id ? 'selected' : '']" data-media-type="banani-button" v-for="member in team" :key="member.id" @click="handlePokemonClick(member.id)">
           <div class="slot-image">
             <img
               data-aspect-ratio="1:1"
               data-query="pixel art charizard pokemon white background"
               alt="Charizard"
-              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+              :src="member.sprites.front_default"
             />
           </div>
           <div class="slot-info">
             <div class="slot-name-row">
-              <div class="slot-name">Charizard</div>
+              <div class="slot-name">{{ member.name }}</div>
             </div>
-            <div class="slot-types">
-              <div class="type-pill t-fire">Fire</div>
-              <div class="type-pill t-flying">Flying</div>
+            <div class="slot-types" v-for="typeInfo in member.types" :key="typeInfo.type.name">
+              <div class="type-pill" :class="'t-' + typeInfo.type.name">{{ typeInfo.type.name }}</div>
             </div>
           </div>
           <base-button
-            button-id="1"
+            :button-id="member.id"
             class="remove-btn"
             data-media-type="banani-button"
+            @click="handleRemovePokemon(member.id)"
           >
             <div
               style="
