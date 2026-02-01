@@ -6,6 +6,7 @@ export const usePokemonStore = defineStore("pokemon", {
     pokemons: [] as Array<any>,
     pokemonTypes: [] as Array<any>,
     currentPokemon: {} as any,
+    currentPokemonTeam: {} as any,
     team: [] as Array<any>,
     loading: true,
     error: null as string | null,
@@ -103,26 +104,49 @@ export const usePokemonStore = defineStore("pokemon", {
     async clearCurrentPokemon() {
       this.currentPokemon = {};
     },
+    async addToTeam(pokemon: any) {
+      if (this.team.length >= 6) {
+        return;
+      }
+      const exists = this.team.find((p) => p.id === pokemon.id);
+      if (exists) {
+        return;
+      }
+      this.team.push(pokemon);
+      this.error = null;
+    },
+
+    async removeFromTeam(pokemonId: number) {
+      this.team = this.team.filter((p) => p.id !== pokemonId);
+    },
   },
 
   getters: {
-    paginatedPokemon: (state):[] => {
-      const filterType = state.searchType !== "all" && state.searchType !== ""
-        ? state.pokemons.filter((pokemon) => {
-            return pokemon.types.some(
-              (typeInfo: any) => typeInfo.type.name === state.searchType,
-            );
-          })
-        : state.pokemons;
+    paginatedPokemon: (state): [] => {
+      const filterType =
+        state.searchType !== "all" && state.searchType !== ""
+          ? state.pokemons.filter((pokemon) => {
+              return pokemon.types.some(
+                (typeInfo: any) => typeInfo.type.name === state.searchType,
+              );
+            })
+          : state.pokemons;
 
       const filterQuery = state.searchQuery
         ? filterType.filter((pokemon) => {
-          return pokemon.name.toLowerCase().includes(state.searchQuery.toLowerCase());
-        })
+            return pokemon.name
+              .toLowerCase()
+              .includes(state.searchQuery.toLowerCase());
+          })
         : filterType;
 
       return filterQuery;
-    }, 
+    },
+    getCurrentPokemonTeam: (state) => (id: number) => { 
+      state.currentPokemonTeam = state.team.find(
+        (pokemon) => pokemon.id === id,
+      );
+    },
     getCurrentPokemon: (state) => (_id: number) => {
       state.currentPokemon = state.pokemons.find(
         (pokemon) => pokemon.id === _id,

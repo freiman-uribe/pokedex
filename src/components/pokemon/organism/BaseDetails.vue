@@ -13,6 +13,12 @@ async function handleClose() {
   await pokemonStore.clearCurrentPokemon();
 }
 
+async function handleAddToTeam() {
+  if (pokemonStore.currentPokemon) {
+    await pokemonStore.addToTeam(pokemonStore.currentPokemon);
+  }
+}
+
 </script>
 <template>
   <aside class="details-panel">
@@ -52,7 +58,8 @@ async function handleClose() {
       <base-evolution :evolutions="pokemon?.evolutions" />
 
       <div style="text-align: center">
-        <div
+        <base-button
+          button-id="addPokemon"
           class="filter-chip"
           style="
             display: inline-block;
@@ -62,9 +69,10 @@ async function handleClose() {
             padding: 12px 24px;
           "
           data-media-type="banani-button"
+          @click="handleAddToTeam"
         >
           Agregar al equipo
-        </div>
+        </base-button>
       </div>
     </div>
   </aside>
