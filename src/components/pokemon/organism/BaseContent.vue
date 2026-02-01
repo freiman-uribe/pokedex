@@ -23,7 +23,7 @@ onMounted(async () => {
 
 <template>
   <div class="main-area">
-    <base-filter-list :types="pokemonTypes" />
+    <base-filter-list :types="pokemonTypes" @filter-selected="pokemonStore.setSearchType" />
     <span v-if="loading">Cargando pokemones...</span>
     <span v-if="error">{{ error }}</span>
     <div v-if="!loading && !error" class="poke-grid-scroll">

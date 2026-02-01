@@ -10,10 +10,14 @@ export const usePokemonStore = defineStore("pokemon", {
     loading: true,
     error: null as string | null,
     searchQuery: "",
+    searchType: "",
   }),
   actions: {
     setSearchQuery(query: string): void {
       this.searchQuery = query;
+    },
+    setSearchType(type: string): void {
+      this.searchType = type;
     },
     async fetchPokemonList() {
       this.loading = true;
@@ -103,14 +107,21 @@ export const usePokemonStore = defineStore("pokemon", {
 
   getters: {
     paginatedPokemon: (state):[] => {
-      const filtered = state.searchQuery
+      const filterType = state.searchType !== "all"
         ? state.pokemons.filter((pokemon) => {
-          return pokemon.name.toLowerCase().includes(state.searchQuery.toLowerCase());
-        },
-          )
+            return pokemon.types.some(
+              (typeInfo: any) => typeInfo.type.name === state.searchType,
+            );
+          })
         : state.pokemons;
-      
-      return filtered;
+
+      const filterQuery = state.searchQuery
+        ? filterType.filter((pokemon) => {
+          return pokemon.name.toLowerCase().includes(state.searchQuery.toLowerCase());
+        })
+        : filterType;
+
+      return filterQuery;
     }, 
     getCurrentPokemon: (state) => (_id: number) => {
       state.currentPokemon = state.pokemons.find(
