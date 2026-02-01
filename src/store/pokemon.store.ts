@@ -107,7 +107,7 @@ export const usePokemonStore = defineStore("pokemon", {
 
   getters: {
     paginatedPokemon: (state):[] => {
-      const filterType = state.searchType !== "all"
+      const filterType = state.searchType !== "all" && state.searchType !== ""
         ? state.pokemons.filter((pokemon) => {
             return pokemon.types.some(
               (typeInfo: any) => typeInfo.type.name === state.searchType,
