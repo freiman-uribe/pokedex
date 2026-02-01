@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { storeToRefs } from "pinia";
 import { usePokemonStore } from "../../../store/pokemon.store";
 import BaseInput from "../atoms/BaseInput.vue";
 import BaseButton from "../atoms/BaseButton.vue";
+const emit = defineEmits<{
+  (e: 'filter-selected', type: string): void;
+}>();
 
 defineProps<{
   types?: Array<any>;
@@ -10,10 +14,18 @@ defineProps<{
 
 const pokemonStore = usePokemonStore();
 
+const {
+  searchType
+} = storeToRefs(pokemonStore);
+
 const searchQuery = computed({
   get: () => pokemonStore.searchQuery,
   set: (value: string) => pokemonStore.setSearchQuery(value),
 });
+
+function handleClick(type: string) {
+  emit('filter-selected', type);
+}
 </script>
 
 <template>
@@ -59,13 +71,15 @@ const searchQuery = computed({
     <div class="filter-scroll">
       <base-button
         buttonId="all"
-        buttonClass="filter-chip active"
+        :buttonClass="['filter-chip', searchType === 'all' || !searchType ? 'active' : ''].join(' ')"
+        @click="handleClick('all')"
         >All</base-button>
       <base-button
         v-for="type in types"
         :key="type.name"
         :buttonId="type.name"
-        buttonClass="filter-chip"
+        :buttonClass="['filter-chip', searchType === type.name ? 'active' : ''].join(' ')"
+        @click="handleClick(type.name)"
         >{{ type.name }}</base-button>
     </div>
   </header>
