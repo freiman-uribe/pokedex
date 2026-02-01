@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { usePokemonStore } from "../../../store/pokemon.store";
 import BaseInput from "../atoms/BaseInput.vue";
 import BaseButton from "../atoms/BaseButton.vue";
 
 defineProps<{
   types?: Array<any>;
 }>();
+
+const pokemonStore = usePokemonStore();
+
+const searchQuery = computed({
+  get: () => pokemonStore.searchQuery,
+  set: (value: string) => pokemonStore.setSearchQuery(value),
+});
 </script>
 
 <template>
@@ -43,6 +52,7 @@ defineProps<{
         inputType="search"
         inputClass="retro-input"
         inputPlaceholder="Name, Number or Type..."
+        v-model="searchQuery" 
       />
     </div>
 

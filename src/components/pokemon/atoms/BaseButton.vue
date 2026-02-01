@@ -9,9 +9,16 @@ const props = withDefaults(defineProps<props>(), {
     buttonClass: ""
 });
 
+const emit = defineEmits<{
+    (e: 'click'): void;
+}>();
+
+function handleClick() {
+    emit('click');
+}
 </script>
 <template>
-    <button :id="props.buttonId" :class="props.buttonClass" :type="props.buttonType">
+    <button :id="props.buttonId" :class="props.buttonClass" :type="props.buttonType" @click="handleClick">
         <slot />
     </button>
 </template>

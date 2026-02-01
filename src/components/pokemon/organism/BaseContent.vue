@@ -11,8 +11,8 @@ const pokemonStore = usePokemonStore();
 const {
   error,
   loading,
-  pokemons,
-  pokemonTypes
+  pokemonTypes,
+  paginatedPokemon
 } = storeToRefs(pokemonStore);
 
 onMounted(async () => {
@@ -28,7 +28,7 @@ onMounted(async () => {
     <span v-if="error">{{ error }}</span>
     <div v-if="!loading && !error" class="poke-grid-scroll">
       <div class="grid-container">
-        <base-card v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
+        <base-card v-for="pokemon in paginatedPokemon" :key="pokemon.id" :pokemon="pokemon" />
       </div>
     </div>
   </div>
