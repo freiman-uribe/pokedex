@@ -9,8 +9,12 @@ export const usePokemonStore = defineStore("pokemon", {
     team: [] as Array<any>,
     loading: true,
     error: null as string | null,
+    searchQuery: "",
   }),
   actions: {
+    setSearchQuery(query: string): void {
+      this.searchQuery = query;
+    },
     async fetchPokemonList() {
       this.loading = true;
       this.error = null;
@@ -21,8 +25,8 @@ export const usePokemonStore = defineStore("pokemon", {
             const name = item.name;
             const res = await this.fetchPokemonByIdOrName(name);
             const evolutions = await this.fetchEvolutionPokemon(res);
-            
-            return {...res, evolutions };
+
+            return { ...res, evolutions };
           }),
         );
         this.pokemons = data;
@@ -35,49 +39,49 @@ export const usePokemonStore = defineStore("pokemon", {
     },
 
     async fetchPokemonByIdOrName(_data: string) {
-        try {
-            const response = await servicePokemon.fetchPokemonByIdOrName(_data);
-            return response;
-        } catch (error) {
-            throw new Error("Error fetching pokemon por id");
-        }
+      try {
+        const response = await servicePokemon.fetchPokemonByIdOrName(_data);
+        return response;
+      } catch (error) {
+        throw new Error("Error fetching pokemon por id");
+      }
     },
 
     async fetchEvolutionPokemon({ evolution }: any) {
-        try {
-          let evolutionsData = [] as Array<any>;
-          const chainData = evolution.chain;
-          if (chainData.species.name) {
+      try {
+        let evolutionsData = [] as Array<any>;
+        const chainData = evolution.chain;
+        if (chainData.species.name) {
+          const { sprites } = await servicePokemon.fetchPokemonByName(
+            chainData.species.name,
+          );
+          evolutionsData = [{ sprites, name: chainData.species.name }];
+        }
+        if (chainData.evolves_to.length > 0) {
+          const { sprites } = await servicePokemon.fetchPokemonByName(
+            chainData?.evolves_to[0]?.species.name,
+          );
+          evolutionsData = [
+            ...evolutionsData,
+            { sprites, name: chainData?.evolves_to[0]?.species.name },
+          ];
+          if (chainData.evolves_to[0].evolves_to.length > 0) {
             const { sprites } = await servicePokemon.fetchPokemonByName(
-              chainData.species.name,
-            );
-            evolutionsData = [{ sprites, name: chainData.species.name }];
-          }
-          if (chainData.evolves_to.length > 0) {
-            const { sprites } = await servicePokemon.fetchPokemonByName(
-              chainData?.evolves_to[0]?.species.name,
+              chainData?.evolves_to[0]?.evolves_to[0]?.species.name,
             );
             evolutionsData = [
               ...evolutionsData,
-              { sprites, name: chainData?.evolves_to[0]?.species.name },
+              {
+                sprites,
+                name: chainData?.evolves_to[0]?.evolves_to[0]?.species.name,
+              },
             ];
-            if (chainData.evolves_to[0].evolves_to.length > 0) {
-              const { sprites } = await servicePokemon.fetchPokemonByName(
-                chainData?.evolves_to[0]?.evolves_to[0]?.species.name,
-              );
-              evolutionsData = [
-                ...evolutionsData,
-                {
-                  sprites,
-                  name: chainData?.evolves_to[0]?.evolves_to[0]?.species.name,
-                },
-              ];
-            }
           }
-          return evolutionsData;
-        } catch (error) {
-            throw new Error("Error fetching pokemon evolutions");
         }
+        return evolutionsData;
+      } catch (error) {
+        throw new Error("Error fetching pokemon evolutions");
+      }
     },
 
     async fetchPokemonTypes() {
@@ -91,11 +95,27 @@ export const usePokemonStore = defineStore("pokemon", {
         this.error = "Failed to fetch Pokemon types";
       }
     },
+
+    async clearCurrentPokemon() {
+      this.currentPokemon = {};
+    },
   },
 
   getters: {
-    getCurrentPokemon: (state) => (_id: number) =>{
-        state.currentPokemon = state.pokemons.find((pokemon) => pokemon.id === _id);
+    paginatedPokemon: (state):[] => {
+      const filtered = state.searchQuery
+        ? state.pokemons.filter((pokemon) => {
+          return pokemon.name.toLowerCase().includes(state.searchQuery.toLowerCase());
+        },
+          )
+        : state.pokemons;
+      
+      return filtered;
+    }, 
+    getCurrentPokemon: (state) => (_id: number) => {
+      state.currentPokemon = state.pokemons.find(
+        (pokemon) => pokemon.id === _id,
+      );
     },
   },
 });

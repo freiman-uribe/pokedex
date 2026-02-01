@@ -1,9 +1,17 @@
 <script setup lang="ts">
+import { usePokemonStore } from "../../../store/pokemon.store";
+import BaseButton from "../atoms/BaseButton.vue";
 import BaseEvolution from "../organism/BaseEvolution.vue";
 
 defineProps<{
   pokemon?: any;
 }>();
+
+const pokemonStore = usePokemonStore();
+
+async function handleClose() {
+  await pokemonStore.clearCurrentPokemon();
+}
 
 </script>
 <template>
@@ -11,6 +19,12 @@ defineProps<{
     <div class="panel-header">
       <div class="panel-title">{{ pokemon?.name }}</div>
       <div class="panel-id">#00{{ pokemon?.order }}</div>
+      <div class="panel-close" data-media-type="banani-button">
+        <base-button buttonId="close-button" @click="handleClose" style="background-color: transparent; color: #ffffff; cursor: pointer;">
+          <iconify-icon icon="lucide:x" style="font-size: 14px; color: inherit">
+          </iconify-icon>
+        </base-button>
+      </div>
     </div>
 
     <div class="active-image-area">

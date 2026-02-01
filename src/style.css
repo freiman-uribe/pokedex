@@ -27,41 +27,9 @@
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-xl: 12px;
-  /* --font-family-body: arial */
    --font-family-body: 'Inter';
 }
 
-/* :root {
-    --background: #F6F7F9;
-    --foreground: #0B1220;
-    --border: #00000014;
-    --input: #FFFFFF;
-    --primary: #FFD200;
-    --primary-foreground: #081022;
-    --secondary: #F3F4F6;
-    --secondary-foreground: #2F3742;
-    --muted: #F0F3F6;
-    --muted-foreground: #98A3B2;
-    --success: #22C55E;
-    --success-foreground: #062B17;
-    --accent: #FF6B6B;
-    --accent-foreground: #2B0A0A;
-    --destructive: #E24A4A;
-    --destructive-foreground: #FFFFFF;
-    --warning: #F5C85A;
-    --warning-foreground: #3B2B00;
-    --card: #FFFFFF;
-    --card-foreground: #0B1220;
-    --sidebar: #FFF6E6;
-    --sidebar-foreground: #2B1700;
-    --sidebar-primary: #FFE66A;
-    --sidebar-primary-foreground: #081022;
-    --radius-sm: 4px;
-    --radius-md: 6px;
-    --radius-lg: 8px;
-    --radius-xl: 12px;
-    --font-family-body: Space Grotesk;
-} */
 *,
 *::before,
 *::after {
@@ -87,7 +55,6 @@
   background-color: var(--background);
   color: var(--foreground);
   display: flex;
-  /* height: 100vh; */
   overflow: hidden;
 }
 
@@ -201,7 +168,6 @@
   gap: 12px;
   overflow-x: auto;
   padding-bottom: 4px;
-  scrollbar-width: none;
 }
 
 .filter-chip {
