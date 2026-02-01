@@ -7,13 +7,13 @@
 </template>
 <style>
     footer {
-        margin-top: 2rem;
         border-top-width: 1px;
         border-color: rgba(255, 255, 255, 0.1);
         padding-top: 2rem;
         padding-bottom: 2rem;
         padding-left: 1.5rem;
         padding-right: 1.5rem;
+        border-top: 3px solid var(--foreground);
     }
 
     footer div {
