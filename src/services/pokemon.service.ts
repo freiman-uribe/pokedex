@@ -41,7 +41,6 @@ class ServicePokemon {
       }
       return { ...response, description, evolution, varieties: species.varieties };
     } catch (error) {
-      console.log('🚀 ~ ServicePokemon ~ fetchPokemonByIdOrName ~ error:', error)
       throw new Error("Error fetching pokemon por id");
     }
   }
