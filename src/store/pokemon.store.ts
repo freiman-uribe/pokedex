@@ -246,4 +246,10 @@ export const usePokemonStore = defineStore("pokemon", {
         state.pokemons.find((pokemon) => pokemon.id === _id) || {};
     },
   },
+
+  persist: {
+    key: "pokedex-store",
+    storage: localStorage,
+    pick: ["team", "allPokemonNames"],
+  },
 });
