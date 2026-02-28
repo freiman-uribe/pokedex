@@ -2,6 +2,8 @@
 import { storeToRefs } from "pinia";
 import BaseButton from "../../team/atoms/BaseButton.vue";
 import { usePokemonStore } from "../../../store/pokemon.store";
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const pokemonStore = usePokemonStore();
 
@@ -17,6 +19,11 @@ async function handleRemovePokemon(pokemonId: number) {
 function handlePokemonClick(pokemonId: number) {
   pokemonStore.getCurrentPokemonTeam(pokemonId);
 }
+
+function redirectPokemon() {
+  router.push('/');
+}
+
 </script>
 
 <template>
@@ -70,7 +77,7 @@ function handlePokemonClick(pokemonId: number) {
             </div>
           </base-button>
         </div>
-        <base-button button-id="add-pokemon" class="team-slot empty" data-media-type="banani-button">
+        <base-button v-for="value in 6 - team.length" :key="value" to="/" button-id="add-pokemon" class="team-slot empty" data-media-type="banani-button" v-if="team.length < 6" @click="redirectPokemon()">
           <div
             style="
               width: 32px;

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, watch, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { usePokemonStore } from "../../../store/pokemon.store";
 import BaseInput from "../atoms/BaseInput.vue";
 import BaseButton from "../atoms/BaseButton.vue";
+
 const emit = defineEmits<{
   (e: 'filter-selected', type: string): void;
 }>();
@@ -21,6 +22,24 @@ const {
 const searchQuery = computed({
   get: () => pokemonStore.searchQuery,
   set: (value: string) => pokemonStore.setSearchQuery(value),
+});
+
+let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+watch(searchQuery, (value) => {
+  if (debounceTimer) clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    if (value.length >= 3) {
+      pokemonStore.fetchPokemonBySearch(value, 1);
+    } else if (value.length === 0) {
+      // Restaurar la lista normal al borrar el campo
+      if (pokemonStore.searchType && pokemonStore.searchType !== "all") {
+        pokemonStore.fetchPokemonByType(pokemonStore.searchType, 1);
+      } else {
+        pokemonStore.fetchPokemonList(1);
+      }
+    }
+  }, 400);
 });
 
 function handleClick(type: string) {

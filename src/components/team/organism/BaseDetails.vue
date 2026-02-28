@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, watch } from "vue";
 import {
   Chart as ChartJS,
   Title,
@@ -28,17 +29,20 @@ ChartJS.register(
   RadarController,
 );
 
-const data = {
-  labels: ["Velocidad", "Fuerza", "Resistencia", "Agilidad", "Precisión"],
-  datasets: [
-    {
-      label: currentPokemonTeam.value.name,
-      data: [28, 48, 40, 19, 96],
-      borderColor: "red",
-      borderWidth: 1,
-    },
-  ],
-};
+const data = ref({});
+watch(currentPokemonTeam, (newVal) => {
+    data.value = {
+      labels: newVal.stats?.map((s: any) => s.stat.name) || [],
+      datasets: [
+        {
+          label: newVal.name || "Pokémon",
+          data: newVal.stats?.map((s: any) => s.base_stat) || [],
+          borderColor: 'red',
+          borderWidth: 1,
+        },
+      ],
+    };
+}, { immediate: true, deep: true });
 
 const options = {
   responsive: true,
@@ -52,12 +56,23 @@ const options = {
     },
   },
 };
+
+async function handleClose() {
+  await pokemonStore.clearCurrentPokemonTeam();
+}
 </script>
 <template>
   <div class="details-panel" v-if="currentPokemonTeam.id">
     <div class="panel-header">
       <div class="panel-title">{{ currentPokemonTeam.name }}</div>
       <div class="panel-id">#006</div>
+      <div class="panel-close" data-media-type="banani-button">
+        <base-button buttonId="close-button" @click="handleClose"
+          style="background-color: transparent; color: #ffffff; cursor: pointer;">
+          <iconify-icon icon="lucide:x" style="font-size: 14px; color: inherit">
+          </iconify-icon>
+        </base-button>
+      </div>
     </div>
 
     <div class="active-image-area">

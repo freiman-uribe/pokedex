@@ -15,7 +15,10 @@ class ServicePokemon {
   async fetchPokemonByIdOrName(data: string) {
     try {
       const response = await httpClient.get<any>(`/pokemon/${data}`);
-      const species = await httpClient.get<any>(`/pokemon-species/${data}`);
+      const species = await httpClient.get<any>(
+        `/pokemon-species/${response.species.name}`,
+      );
+      
       const evolution = await httpClient.get<any>(`/evolution-chain/${species.evolution_chain.url.split('/').slice(-2, -1)[0]}`);
 
       let description = "";
@@ -24,7 +27,7 @@ class ServicePokemon {
             if (description.language.name === "es")
                 return `${description.description}`;
             return null;
-        }).description;
+        })?.description;
       }
 
       if (species.form_descriptions.length === 0 || !description) {
@@ -34,10 +37,11 @@ class ServicePokemon {
               return `${description.flavor_text}`;
             return null;
           },
-        ).flavor_text;
+        )?.flavor_text || "No description available";
       }
-      return { ...response, description, evolution };
+      return { ...response, description, evolution, varieties: species.varieties };
     } catch (error) {
+      console.log('🚀 ~ ServicePokemon ~ fetchPokemonByIdOrName ~ error:', error)
       throw new Error("Error fetching pokemon por id");
     }
   }
@@ -57,6 +61,24 @@ class ServicePokemon {
       return evolution;
     } catch (error) {
       throw new Error("Error fetching pokemon evolutions");
+    }
+  }
+
+  async fetchAllPokemonNames() {
+    try {
+      const response = await httpClient.get<any>(`/pokemon?limit=100000&offset=0`);
+      return (response.results as Array<any>).map((p: any) => p.name);
+    } catch (error) {
+      throw new Error("Error fetching all pokemon names");
+    }
+  }
+
+  async fetchPokemonByType(type: string) {
+    try {
+      const response = await httpClient.get<any>(`/type/${type}`);
+      return (response.pokemon as Array<any>).map((entry: any) => entry.pokemon.name);
+    } catch (error) {
+      throw new Error("Error fetching pokemon by type");
     }
   }
 
