@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseCard from '../molecules/BaseCard.vue';
 import BaseFilterList from '../molecules/BaseFilterList.vue';
+import BasePagination from '../molecules/BasePagination.vue';
 
 import { usePokemonStore } from "../../../store/pokemon.store";
 import { onMounted } from "vue";
@@ -16,7 +17,7 @@ const {
 } = storeToRefs(pokemonStore);
 
 onMounted(async () => {
-  await pokemonStore.fetchPokemonList();
+  await pokemonStore.fetchPokemonList(0);
   await pokemonStore.fetchPokemonTypes();
 });
 </script>
@@ -30,6 +31,7 @@ onMounted(async () => {
       <div class="grid-container">
         <base-card v-for="pokemon in paginatedPokemon" :key="pokemon.id" :pokemon="pokemon" />
       </div>
+      <base-pagination :current-page="pokemonStore.currentPage" :total-pages="pokemonStore.totalPages" @page-change="pokemonStore.changePage" />
     </div>
   </div>
   

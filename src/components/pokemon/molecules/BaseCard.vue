@@ -26,7 +26,7 @@ const handlePokemonClick = (_id: number) => {
                 :src="pokemon.sprites.front_default" />
         </div>
         <div class="card-details">
-            <div class="card-num">#00{{ pokemon.order }}</div>
+            <div class="card-num">#00{{ pokemon.id }}</div>
             <div class="card-name">{{ pokemon.name }}</div>
         </div>
     </div>
