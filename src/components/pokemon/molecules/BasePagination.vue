@@ -21,11 +21,9 @@ const visiblePages = computed(() => {
     return Array.from({ length: total }, (_, i) => i + 1);
   }
 
-  // Mantener la página actual en la posición 5 de la ventana
   let start = Math.max(1, current - 4);
   let end = start + WINDOW_SIZE - 1;
 
-  // Ajustar si la ventana se sale por el final
   if (end > total) {
     end = total;
     start = Math.max(1, end - WINDOW_SIZE + 1);
