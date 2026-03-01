@@ -234,8 +234,8 @@ export const usePokemonStore = defineStore("pokemon", {
   },
 
   getters: {
-    paginatedPokemon: (state): [] => {
-      return state.pokemons as [];
+    paginatedPokemon: (state): Array<any> => {
+      return state.pokemons;
     },
     getCurrentPokemonTeam: (state) => async (id: number) => {
       state.currentPokemonTeam =

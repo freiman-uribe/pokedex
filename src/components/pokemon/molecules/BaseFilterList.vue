@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref } from "vue";
+import { computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { usePokemonStore } from "../../../store/pokemon.store";
 import BaseInput from "../atoms/BaseInput.vue";

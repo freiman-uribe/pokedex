@@ -32,9 +32,9 @@ const visiblePages = computed(() => {
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
 
-const showStartEllipsis = computed(() => visiblePages.value[0] > 1);
+const showStartEllipsis = computed(() => visiblePages.value[0]! > 1);
 const showEndEllipsis = computed(
-  () => visiblePages.value[visiblePages.value.length - 1] < props.totalPages
+  () => visiblePages.value[visiblePages.value.length - 1]! < props.totalPages
 );
 </script>
 <template>
