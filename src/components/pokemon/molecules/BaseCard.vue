@@ -9,8 +9,6 @@ defineProps<{
 }>();
 
 const {
-    error,
-    loading,
     currentPokemon,
 } = storeToRefs(pokemonStore);
 

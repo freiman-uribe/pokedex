@@ -3,7 +3,7 @@ import { httpClient } from "../config/confAxios";
 class ServicePokemon {
   async fetchPokemonList(limit: number = 10, offset: number = 0) {
     try {
-      const response = await httpClient.get<[]>(
+      const response = await httpClient.get<any>(
         `/pokemon?limit=${limit}&offset=${offset}`,
       );
       return response;
@@ -83,7 +83,7 @@ class ServicePokemon {
 
   async fetchPokemonTypes() {
     try {
-      const response = await httpClient.get<[]>(`/type`);
+      const response = await httpClient.get<any>(`/type`);
       return response;
     } catch (error) {
       throw new Error("Error fetching pokemon types");

@@ -9,8 +9,6 @@ import { storeToRefs } from "pinia";
 const pokemonStore = usePokemonStore();
 
 const {
-  error,
-  loading,
   currentPokemonTeam,
 } = storeToRefs(pokemonStore);
 </script>

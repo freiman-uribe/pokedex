@@ -29,7 +29,7 @@ ChartJS.register(
   RadarController,
 );
 
-const data = ref({});
+const data = ref<any>({});
 watch(currentPokemonTeam, (newVal) => {
     data.value = {
       labels: newVal.stats?.map((s: any) => s.stat.name) || [],
